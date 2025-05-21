@@ -1,5 +1,6 @@
 package com.astitva.jiraclone.controller;
 
+import com.astitva.jiraclone.entity.Issue;
 import com.astitva.jiraclone.entity.SprintIssue;
 import com.astitva.jiraclone.service.SprintIssueService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +28,18 @@ public class SprintIssueController {
     }
 
     @GetMapping("/sprint/{sprintId}")
-    public ResponseEntity<List<SprintIssue>> getIssuesBySprintId(@PathVariable Long sprintId) {
+    public ResponseEntity<List<SprintIssue>> getSprintIssueMappings(@PathVariable Long sprintId) {
         return ResponseEntity.ok(sprintIssueService.getIssuesBySprintId(sprintId));
     }
 
     @GetMapping("/issue/{issueId}")
-    public ResponseEntity<List<SprintIssue>> getSprintsByIssueId(@PathVariable Long issueId) {
+    public ResponseEntity<List<SprintIssue>> getSprintMappingsForIssue(@PathVariable Long issueId) {
         return ResponseEntity.ok(sprintIssueService.getSprintsByIssueId(issueId));
+    }
+
+    // ✅ New endpoint to return full Issue objects in a sprint
+    @GetMapping("/sprint/{sprintId}/issues")
+    public ResponseEntity<List<Issue>> getAllIssuesInSprint(@PathVariable Long sprintId) {
+        return ResponseEntity.ok(sprintIssueService.getFullIssuesBySprintId(sprintId));
     }
 }
