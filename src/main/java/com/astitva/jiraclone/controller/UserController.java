@@ -55,4 +55,22 @@ public class UserController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @Operation(
+            summary = "Delete user by username",
+            description = "Deletes a user from the system by their username",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "User deleted successfully"),
+                    @ApiResponse(responseCode = "404", description = "User not found")
+            }
+    )
+    @DeleteMapping("/{username}")
+    public ResponseEntity<Void> deleteUserByUsername(@PathVariable String username) {
+        boolean deleted = userService.deleteByUsername(username);
+        if (deleted) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
